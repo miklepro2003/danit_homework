@@ -1,0 +1,43 @@
+#!/bin/bash
+
+N=$(($RANDOM % 100 + 1))
+MIN=1
+MAX=100
+#echo "загаданое число: $N"
+
+for pop in "1" "2" "3" "4" "5" 
+do
+    CH=200
+    while (( ($CH > 100) || ($CH < 1) )) 
+     do
+      read -p "Угадай число. ИИ советует $(( ($MAX - $MIN) / 2 + $MIN )). Попытка $pop: " CH
+    done
+    
+    if (( ($CH > MAX) || ($CH < MIN) ))
+     then echo "Вы нарушили логику своих испытаний" 
+    fi
+
+    if (( $CH == $N )); 
+    then
+       rez="Вы угадали"
+       break
+        
+    else
+         rez="Вы не угадали "
+         if (( $CH > $N ));
+         then
+            echo " Ваше число больше загаданного "
+            if (( ($CH >= MIN ) && ($CH <= MAX) )) ; then
+             MAX=$CH
+            fi
+
+         else 
+            echo " Ваше число меньше загаданного "
+            if (( ($CH >= MIN ) && ($CH <= MAX) )) ; then
+            MIN=$CH
+            fi
+         fi
+    fi  
+done
+echo "$rez"
+echo "Загаданное число $N"
