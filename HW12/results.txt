@@ -1,0 +1,149 @@
+REST API TEST RESULTS
+
+GET ALL STUDENTS
+STATUS: 200
+BODY: []
+
+
+CREATE STUDENT 1
+STATUS: 201
+BODY: {
+  "age": "20",
+  "id": "1",
+  "name": "Ivan",
+  "surname": "Petrov"
+}
+
+
+CREATE STUDENT 2
+STATUS: 201
+BODY: {
+  "age": "21",
+  "id": "2",
+  "name": "Anna",
+  "surname": "Ivanova"
+}
+
+
+CREATE STUDENT 3
+STATUS: 201
+BODY: {
+  "age": "22",
+  "id": "3",
+  "name": "Max",
+  "surname": "Sidorov"
+}
+
+
+GET ALL STUDENTS
+STATUS: 200
+BODY: [
+  {
+    "age": "20",
+    "id": "1",
+    "name": "Ivan",
+    "surname": "Petrov"
+  },
+  {
+    "age": "21",
+    "id": "2",
+    "name": "Anna",
+    "surname": "Ivanova"
+  },
+  {
+    "age": "22",
+    "id": "3",
+    "name": "Max",
+    "surname": "Sidorov"
+  }
+]
+
+
+PATCH STUDENT 2
+STATUS: 200
+BODY: {
+  "age": "30",
+  "id": "2",
+  "name": "Anna",
+  "surname": "Ivanova"
+}
+
+
+GET STUDENT 2
+STATUS: 200
+BODY: {
+  "age": "30",
+  "id": "2",
+  "name": "Anna",
+  "surname": "Ivanova"
+}
+
+
+PUT STUDENT 3
+STATUS: 200
+BODY: {
+  "age": "40",
+  "id": "3",
+  "name": "Alex",
+  "surname": "Brown"
+}
+
+
+GET STUDENT 3
+STATUS: 200
+BODY: {
+  "age": "40",
+  "id": "3",
+  "name": "Alex",
+  "surname": "Brown"
+}
+
+
+GET ALL STUDENTS
+STATUS: 200
+BODY: [
+  {
+    "age": "20",
+    "id": "1",
+    "name": "Ivan",
+    "surname": "Petrov"
+  },
+  {
+    "age": "30",
+    "id": "2",
+    "name": "Anna",
+    "surname": "Ivanova"
+  },
+  {
+    "age": "40",
+    "id": "3",
+    "name": "Alex",
+    "surname": "Brown"
+  }
+]
+
+
+DELETE STUDENT 1
+STATUS: 200
+BODY: {
+  "message": "student deleted"
+}
+
+
+GET ALL STUDENTS
+STATUS: 200
+BODY: [
+  {
+    "age": "30",
+    "id": "2",
+    "name": "Anna",
+    "surname": "Ivanova"
+  },
+  {
+    "age": "40",
+    "id": "3",
+    "name": "Alex",
+    "surname": "Brown"
+  }
+]
+
