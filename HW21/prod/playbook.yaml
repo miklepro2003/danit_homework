@@ -1,0 +1,27 @@
+---
+- name: Install and configure web server   # имя плейбука — описывает, что он делает
+  hosts: all                               # к каким хостам из inventory применяется этот плейбук
+  become: true                             # выполнять все таски от root
+
+  tasks:
+    - name: Install Docker                   
+      ansible.builtin.apt:              # модуль
+        name: docker.io
+        state: present
+        update_cache: true
+        
+    - name: Install Docker Compose
+      ansible.builtin.package:              # модуль
+        name: docker-compose
+        state: present
+
+    - name: Copy Docker Compose
+      ansible.builtin.copy:
+        src: docker-compose.yml                # инструкции для докера в файле
+        dest: /home/ubuntu/                    # путь на удалённом сервере, куда копировать
+        mode: '0644'                           # права - изменить его сможет только root или владелец
+
+    - name: Run Nginx with Docker Compose
+      ansible.builtin.shell:
+        cmd: "docker-compose up -d"           # команда запуска в фоне
+        chdir: "/home/ubuntu"                 # выполнить команду выше в этой папке
