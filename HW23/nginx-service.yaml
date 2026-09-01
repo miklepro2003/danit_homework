@@ -1,0 +1,11 @@
+apiVersion: v1  # версия API Kubernetes для базовых ресурсов
+kind: Service  # тип ресурса - сервис
+metadata:
+  name: nginx1-svc  # имя сервиса
+spec:
+  type: NodePort  # тип сервиса - открывает порт наружу на ноде
+  selector:
+    run: nginx1  # ищет поды с такой меткой (проставлена автоматически при kubectl run)
+  ports:
+    - port: 80  # порт, который открывает сам сервис внутри кластера
+      targetPort: 80  # порт внутри контейнера nginx, куда идёт трафик
