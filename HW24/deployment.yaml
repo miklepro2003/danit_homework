@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: hw24-deployment
+
+spec:
+  replicas: 3                      # 3 пода создать
+  selector:
+    matchLabels:
+      app: hw24-python
+  
+  template:
+    
+    metadata:
+      labels:
+        app: hw24-python           # в service укажу его в selector
+    
+    spec:
+      containers:
+      - name: hw24-container
+        image: miklepro2003/hw24:v1
+        ports:
+        - containerPort: 8082       # ибо Python-скрипт слушает 8082
+      
+      imagePullSecrets:
+      - name: regcred                # секрет для доступа к приватному Docker Hub репозиторию
