@@ -1,0 +1,13 @@
+route:
+  receiver: telegram
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+
+receivers:
+  - name: telegram
+    telegram_configs:
+      - bot_token: "ТОКЕН_БОТА"
+        chat_id: НОМЕР_ЧАТА
+        send_resolved: true
+        message: '{{ range .Alerts }}{{ .Status | toUpper }}: {{ .Annotations.summary }}{{ end }}'

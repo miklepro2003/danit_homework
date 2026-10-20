@@ -1,0 +1,26 @@
+groups:
+  - name: monitoring-alerts
+    rules:
+      - alert: LowDiskSpace
+        expr: 100 * node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"} < 15
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Мало места на диске {{ $labels.instance }} (свободно {{ $value | printf \"%.1f\" }}%)"
+
+      - alert: HighCPU
+        expr: 100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU выше 80% на {{ $labels.instance }} (загрузка {{ $value | printf \"%.1f\" }}%)"
+
+      - alert: TargetDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Таргет {{ $labels.job }} недоступен ({{ $labels.instance }})"
