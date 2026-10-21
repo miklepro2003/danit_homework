@@ -1,0 +1,31 @@
+services:                                          # список контейнеров
+
+  fluent-bit:                                      # принимает логи и отправляет в базу
+    image: fluent/fluent-bit:5.1.4                # образ fluent bit (версия закреплена)
+    container_name: fluent-bit                     # имя контейнера (нужно для поиска его ip)
+    volumes:                                       # что положить внутрь контейнера
+      - ./fluent-bit.yaml:/fluent-bit/etc/fluent-bit.yaml   # наш конфиг
+    ports:                                         
+      - "24224:24224"                              # проброс порта 24224 с хоста на контейнер (для приёма логов)
+    command:                                       # переопределяем команду запуска
+      - -c                                         # флаг: читать свой конфиг
+      - /fluent-bit/etc/fluent-bit.yaml            # путь к конфигу
+    depends_on:                                    
+      - elasticsearch                              # запускать после базы
+
+  elasticsearch:                                   # база данных для логов
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    environment:                                   
+      - discovery.type=single-node                 # узел один, без кластера
+      - xpack.security.enabled=false               # без паролей
+    ports:                                         
+      - "9200:9200"                                # проброс порта 9200 с хоста на контейнер (для проверки в браузере)
+
+  kibana:                                          # веб-интерфейс для базы
+    image: docker.elastic.co/kibana/kibana:8.12.2  # версия должна совпадать с базой
+    environment:                                   
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # адрес базы внутри сети
+    ports:                                         
+      - "5601:5601"                                # проброс порта 5601 с хоста на контейнер (для браузера)
+    depends_on:                                    
+      - elasticsearch                              # запускать после базы
